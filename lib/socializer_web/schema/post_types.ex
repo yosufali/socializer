@@ -1,8 +1,9 @@
 defmodule SocializerWeb.Schema.PostTypes do
   use Absinthe.Schema.Notation
-  use Absinthe.Ecto, repo: Socializer.Repo
 
-  alias SocializerWeb.Resolvers
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
+
+  alias SocializerWeb.{Data, Resolvers}
 
   @desc "A post on the site"
   object :post do
@@ -10,15 +11,10 @@ defmodule SocializerWeb.Schema.PostTypes do
     field :body, :string
     field :inserted_at, :naive_datetime
 
-    field :user, :user, resolve: assoc(:user)
+    field :user, :user, resolve: dataloader(Data)
 
-    field :comments, list_of(:comment) do
-      resolve(
-        assoc(:comments, fn comments_query, _args, _context ->
-          comments_query |> order_by(desc: :id)
-        end)
-      )
-    end
+    field :comments, list_of(:comment),
+      resolve: dataloader(Data, :comments, args: %{order_by: :id})
   end
 
   object :post_queries do
@@ -27,21 +23,24 @@ defmodule SocializerWeb.Schema.PostTypes do
       resolve(&Resolvers.PostResolver.list/3)
     end
 
-    @des "Get a specific post"
+    @desc "Get a specific post"
     field :post, :post do
+      arg(:id, non_null(:id))
       resolve(&Resolvers.PostResolver.show/3)
     end
   end
 
   object :post_mutations do
-    @desc "Create a post"
+    @desc "Create post"
     field :create_post, :post do
       arg(:body, non_null(:string))
+
+      resolve(&Resolvers.PostResolver.create/3)
     end
   end
 
   object :post_subscriptions do
-    field :posted_created, :post do
+    field :post_created, :post do
       # config is used to setup the subscription
       config(fn _, _ ->
         {:ok, topic: "posts"}
