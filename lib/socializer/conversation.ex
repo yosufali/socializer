@@ -12,7 +12,7 @@ defmodule Socializer.Conversation do
     timestamps()
   end
 
-  def all_or_user(user) do
+  def all_for_user(user) do
     Repo.all(
       from c in __MODULE__,
         join: cu in ConversationUser,
