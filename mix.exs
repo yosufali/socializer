@@ -48,12 +48,15 @@ defmodule Socializer.MixProject do
       {:absinthe, "~> 1.4"},
       {:absinthe_phoenix, "~> 1.4.0"},
       {:absinthe_plug, "~> 1.4"},
-      {:dataloader, "~> 1.0.0"}
+      {:dataloader, "~> 1.0.0"},
+      {:ex_spec, "~> 2.0", only: :test},
+      {:ex_machina, "~> 2.3"}
     ]
   end
 
   # stuff im using i should probably install:
   # check the github mix file
+  # https://github.com/GesJeremie/faker-elixir ?
 
   # Aliases are shortcuts or tasks specific to the current project.
   # For example, to create, migrate and run the seeds file at once:
