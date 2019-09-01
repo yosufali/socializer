@@ -49,8 +49,10 @@ defmodule Socializer.MixProject do
       {:absinthe_phoenix, "~> 1.4.0"},
       {:absinthe_plug, "~> 1.4"},
       {:dataloader, "~> 1.0.0"},
+      {:poison, "~> 2.1.0"},
       {:ex_spec, "~> 2.0", only: :test},
-      {:ex_machina, "~> 2.3"}
+      {:ex_machina, "~> 2.3"},
+      {:faker, "~> 0.7", only: :test}
     ]
   end
 
