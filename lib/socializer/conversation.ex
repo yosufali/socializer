@@ -32,20 +32,20 @@ defmodule Socializer.Conversation do
   def find_for_users(user_ids) do
     query =
       user_ids
-      |> Enum.filter(&(!is_nill(&1)))
+      |> Enum.filter(&(!is_nil(&1)))
       |> Enum.reduce(__MODULE__, fn user_id, query ->
         from c in query,
           join: cu in ConversationUser,
-          where: cu.conversation_id == c.id and cu.user_id == ^user.id
+          where: cu.conversation_id == c.id and cu.user_id == ^user_id
       end)
 
-    Repo.one(from q in query, limit(1))
+    Repo.one(from q in query, limit: 1)
   end
 
   def user_ids(conversation_id) when is_number(conversation_id) do
     Repo.all(
       from cu in ConversationUser,
-        where: cu.conversation.id == ^conversation_id,
+        where: cu.conversation_id == ^conversation_id,
         select: cu.user_id
     )
   end
@@ -53,7 +53,7 @@ defmodule Socializer.Conversation do
   def user_ids(conversation) do
     Repo.all(
       from cu in ConversationUser,
-        where: cu.conversation.id == ^conversation.id,
+        where: cu.conversation_id == ^conversation.id,
         select: cu.user_id
     )
   end

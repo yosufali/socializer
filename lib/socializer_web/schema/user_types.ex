@@ -15,7 +15,7 @@ defmodule SocializerWeb.Schema.UserTypes do
 
     field :gravatar_md5, :string do
       resolve(fn user, _, _ ->
-        {:ok, :crypt.hash(:md5, user.email) |> Base.encode16(case: lower)}
+        {:ok, :crypt.hash(:md5, user.email) |> Base.encode16(case: :lower)}
       end)
     end
 

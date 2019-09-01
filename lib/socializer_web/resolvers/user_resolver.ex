@@ -1,7 +1,7 @@
 defmodule Soclializer.Resolvers.UserResoslver do
   alias Socializer.{Guardian, User}
 
-  def search_users(_parent, _args, %{context: %{current_user: current_user}}) do
+  def search_users(_parent, args, %{context: %{current_user: current_user}}) do
     {:ok, User.search(args[:search_term], current_user)}
   end
 
@@ -17,7 +17,7 @@ defmodule Soclializer.Resolvers.UserResoslver do
     {:error, "Unauthenticated"}
   end
 
-  def sign_up(_parent, _args, _resolutions) do
+  def sign_up(_parent, args, _resolutions) do
     args
     |> User.create()
     |> case do

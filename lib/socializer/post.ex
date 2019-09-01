@@ -1,7 +1,7 @@
 defmodule Socializer.Post do
   use Socializer.Model
 
-  alias Socalizer.{Repo, Comment, User}
+  alias Socializer.{Repo, Comment, User}
 
   schema "posts" do
     field :body, :string

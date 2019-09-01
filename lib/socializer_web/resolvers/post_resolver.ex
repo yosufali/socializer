@@ -4,7 +4,7 @@ defmodule SocializerWeb.Resolvers.PostResolver do
   # Absinthe expects every resolver method to return a tuple 
   # — either {:ok, requested_data} or {:error, some_error} 
 
-  def list(_parent, args, _resolutions) do
+  def list(_parent, _args, _resolutions) do
     {:ok, Post.all()}
   end
 

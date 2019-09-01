@@ -15,11 +15,11 @@ defmodule Socializer.Context do
 
   def build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-      {:ok, claim} <- Guardian.decode_and_verify(token),
-      user when not in is_nil(user) <- User.find(claim["sub"]) do
-        %{current_user: user}
-      else
-        _ -> %{}
-      end
+         {:ok, claim} <- Guardian.decode_and_verify(token),
+         user when not is_nil(user) <- User.find(claim["sub"]) do
+      %{current_user: user}
+    else
+      _ -> %{}
+    end
   end
 end

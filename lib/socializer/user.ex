@@ -24,11 +24,11 @@ defmodule Socializer.User do
     )
   end
 
-  def changeset(%__MODULE__{} = user, attr) do
+  def changeset(%__MODULE__{} = user, attrs) do
     user
-    |> cast([:name, :email, :password])
+    |> cast(attrs, [:name, :email, :password])
     |> validate_required([:name, :email, :password])
-    |> validate_forma(:email, ~r/@/)
+    |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
     |> put_password_hash
   end
